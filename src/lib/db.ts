@@ -1,16 +1,24 @@
-import Database from "better-sqlite3";
+import initSqlJs, { Database, SqlValue } from "sql.js";
+import fs from "fs";
 import path from "path";
 
 const DB_PATH = path.join(process.cwd(), "data", "trees.db");
 
-let _db: Database.Database | null = null;
+let _db: Database | null = null;
+let _initPromise: Promise<Database> | null = null;
 
-export function getDb(): Database.Database {
-  if (!_db) {
-    _db = new Database(DB_PATH, { readonly: true });
-    _db.pragma("journal_mode = WAL");
-  }
-  return _db;
+async function getDb(): Promise<Database> {
+  if (_db) return _db;
+  if (_initPromise) return _initPromise;
+
+  _initPromise = (async () => {
+    const SQL = await initSqlJs();
+    const buffer = fs.readFileSync(DB_PATH);
+    _db = new SQL.Database(buffer);
+    return _db;
+  })();
+
+  return _initPromise;
 }
 
 export interface TreeRow {
@@ -37,34 +45,44 @@ export interface CherryRoadRow {
   description: string | null;
 }
 
-export function getTreesInBounds(
+function queryAll<T>(db: Database, sql: string, params: SqlValue[] = []): T[] {
+  const stmt = db.prepare(sql);
+  stmt.bind(params);
+  const results: T[] = [];
+  while (stmt.step()) {
+    results.push(stmt.getAsObject() as T);
+  }
+  stmt.free();
+  return results;
+}
+
+export async function getTreesInBounds(
   minLat: number,
   maxLat: number,
   minLng: number,
   maxLng: number,
   limit = 5000
-): TreeRow[] {
-  const db = getDb();
-  return db
-    .prepare(
-      `SELECT id, species, lat, lng, road_section, region, district, road_name
-       FROM trees
-       WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ?
-       LIMIT ?`
-    )
-    .all(minLat, maxLat, minLng, maxLng, limit) as TreeRow[];
+): Promise<TreeRow[]> {
+  const db = await getDb();
+  return queryAll<TreeRow>(
+    db,
+    `SELECT id, species, lat, lng, road_section, region, district, road_name
+     FROM trees
+     WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ?
+     LIMIT ?`,
+    [minLat, maxLat, minLng, maxLng, limit]
+  );
 }
 
-export function getAllCherryRoads(): CherryRoadRow[] {
-  const db = getDb();
-  return db.prepare("SELECT * FROM cherry_roads").all() as CherryRoadRow[];
+export async function getAllCherryRoads(): Promise<CherryRoadRow[]> {
+  const db = await getDb();
+  return queryAll<CherryRoadRow>(db, "SELECT * FROM cherry_roads");
 }
 
-export function getTreeStats(): { species: string; count: number }[] {
-  const db = getDb();
-  return db
-    .prepare(
-      "SELECT species, COUNT(*) as count FROM trees GROUP BY species ORDER BY count DESC"
-    )
-    .all() as { species: string; count: number }[];
+export async function getTreeStats(): Promise<{ species: string; count: number }[]> {
+  const db = await getDb();
+  return queryAll<{ species: string; count: number }>(
+    db,
+    "SELECT species, COUNT(*) as count FROM trees GROUP BY species ORDER BY count DESC"
+  );
 }

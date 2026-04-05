@@ -12,19 +12,19 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Invalid bounds" }, { status: 400 });
     }
     const limit = Math.min(Number(searchParams.get("limit")) || 5000, 10000);
-    const trees = getTreesInBounds(minLat, maxLat, minLng, maxLng, limit);
+    const trees = await getTreesInBounds(minLat, maxLat, minLng, maxLng, limit);
     return NextResponse.json({ trees, count: trees.length });
   }
 
   // GET /api/trees?roads=1
   if (searchParams.get("roads")) {
-    const roads = getAllCherryRoads();
+    const roads = await getAllCherryRoads();
     return NextResponse.json({ roads, count: roads.length });
   }
 
   // GET /api/trees?stats=1
   if (searchParams.get("stats")) {
-    const stats = getTreeStats();
+    const stats = await getTreeStats();
     return NextResponse.json({ stats });
   }
 
