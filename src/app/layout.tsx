@@ -9,6 +9,9 @@ const notoSansKR = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL ?? "https://default-brown-six.vercel.app"
+  ),
   title: "벚꽃구경 — 전국 벚꽃 지도",
   description:
     "전국 벚나무 위치와 벚꽃길을 한눈에! 산림청 데이터 기반 벚꽃 명소 지도 서비스",
