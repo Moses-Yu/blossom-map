@@ -78,10 +78,11 @@ body {
 }
 
 .cherry-cluster-large {
-  background: linear-gradient(135deg, #E8627C, #D63B5E);
+  background: linear-gradient(135deg, #FF8FA3, #E8627C);
   width: 52px;
   height: 52px;
   font-size: 14px;
+  box-shadow: 0 3px 12px rgba(255, 143, 163, 0.55);
 }
 
 /* Bottom sheet slide-up animation */

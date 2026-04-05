@@ -82,9 +82,6 @@ export default function BottomSheet({
                 🛣️ {tree.road_section}
               </p>
             )}
-            <p className="text-xs text-gray-400 mt-2">
-              {tree.lat.toFixed(5)}, {tree.lng.toFixed(5)}
-            </p>
           </div>
           <button
             onClick={onClose}
@@ -101,6 +98,16 @@ export default function BottomSheet({
             </svg>
           </button>
         </div>
+
+        {/* 길찾기 CTA */}
+        <a
+          href={`https://map.naver.com/?lng=${tree.lng}&lat=${tree.lat}&title=${encodeURIComponent(tree.species)}`}
+          target="_blank"
+          rel="noopener"
+          className="bg-cherry-deep text-white rounded-xl py-3 font-semibold mt-4 w-full block text-center"
+        >
+          길찾기
+        </a>
       </div>
     </div>
   );

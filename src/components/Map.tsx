@@ -203,16 +203,16 @@ export default function Map() {
       )}
 
       {/* Tree count badge */}
-      {treeCount > 0 && !loading && (
+      {treeCount > 0 && (
         <div className="absolute top-16 left-3 z-[1000]">
-          <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow text-xs text-cherry-deep font-medium">
+          <div className={`bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow text-xs text-cherry-deep font-medium transition-opacity ${loading ? "opacity-50" : "opacity-100"}`}>
             {treeCount.toLocaleString()}그루
           </div>
         </div>
       )}
 
       {/* Right-side floating buttons */}
-      <div className="absolute bottom-6 right-3 z-[1000] flex flex-col gap-2">
+      <div className={`absolute bottom-6 right-3 z-[1000] flex flex-col gap-2 transition-opacity ${selectedTree ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
         <ShareButton
           species={selectedTree?.species}
           location={
