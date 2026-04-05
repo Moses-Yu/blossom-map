@@ -39,3 +39,63 @@ body {
   width: 100%;
   height: 100%;
 }
+
+/* Cherry blossom marker */
+.cherry-marker {
+  background: none !important;
+  border: none !important;
+}
+
+/* Cherry cluster styles */
+.cherry-cluster-wrapper {
+  background: none !important;
+  border: none !important;
+}
+
+.cherry-cluster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(255, 143, 163, 0.4);
+}
+
+.cherry-cluster-small {
+  background: linear-gradient(135deg, #FFB7C5, #FF8FA3);
+  width: 36px;
+  height: 36px;
+  font-size: 12px;
+}
+
+.cherry-cluster-medium {
+  background: linear-gradient(135deg, #FF8FA3, #E8627C);
+  width: 44px;
+  height: 44px;
+  font-size: 13px;
+}
+
+.cherry-cluster-large {
+  background: linear-gradient(135deg, #E8627C, #D63B5E);
+  width: 52px;
+  height: 52px;
+  font-size: 14px;
+}
+
+/* Bottom sheet slide-up animation */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.25s ease-out;
+}
