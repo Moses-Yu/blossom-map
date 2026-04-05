@@ -30,7 +30,7 @@ interface TreeData {
 // ── Constants ──────────────────────────────────────────
 const KOREA_CENTER: [number, number] = [36.5, 127.5];
 const DEFAULT_ZOOM = 7;
-const MIN_ZOOM_FOR_MARKERS = 10;
+const MIN_ZOOM_FOR_MARKERS = 7;
 
 // ── Cherry blossom SVG marker ──────────────────────────
 const CHERRY_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28">
@@ -155,8 +155,8 @@ export default function Map() {
         ref={mapRef}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
         <ZoomControl position="topright" />
         <MapEvents onBoundsChange={fetchTrees} />
@@ -164,10 +164,11 @@ export default function Map() {
         {zoom >= MIN_ZOOM_FOR_MARKERS && trees.length > 0 && (
           <MarkerClusterGroup
             chunkedLoading
-            maxClusterRadius={60}
+            maxClusterRadius={80}
             spiderfyOnMaxZoom
             showCoverageOnHover={false}
             iconCreateFunction={createClusterIcon}
+            disableClusteringAtZoom={16}
           >
             {trees.map((tree) => (
               <Marker
@@ -187,7 +188,7 @@ export default function Map() {
       {zoom < MIN_ZOOM_FOR_MARKERS && (
         <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-[1000] pointer-events-none">
           <div className="bg-white/90 backdrop-blur-sm rounded-full px-4 py-2 shadow-lg text-sm text-cherry-deep font-medium">
-            지도를 확대하면 벚나무가 나타나요
+            🌸 지도를 확대해서 벚나무를 찾아보세요
           </div>
         </div>
       )}
