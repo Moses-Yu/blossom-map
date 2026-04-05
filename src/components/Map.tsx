@@ -13,6 +13,7 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import BottomSheet from "./BottomSheet";
+import ShareButton from "./ShareButton";
 
 // ── Types ──────────────────────────────────────────────
 interface TreeData {
@@ -209,25 +210,37 @@ export default function Map() {
         </div>
       )}
 
-      {/* Locate me button */}
-      <button
-        onClick={handleLocateMe}
-        className="absolute bottom-6 right-3 z-[1000] bg-white rounded-full w-11 h-11 shadow-lg flex items-center justify-center text-cherry-deep hover:bg-cherry-light transition-colors"
-        aria-label="내 주변 벚꽃"
-        title="내 주변 벚꽃"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          className="w-5 h-5"
+      {/* Right-side floating buttons */}
+      <div className="absolute bottom-6 right-3 z-[1000] flex flex-col gap-2">
+        <ShareButton
+          species={selectedTree?.species}
+          location={
+            selectedTree
+              ? [selectedTree.region, selectedTree.district].filter(Boolean).join(" ")
+              : undefined
+          }
+          lat={selectedTree?.lat}
+          lng={selectedTree?.lng}
+        />
+        <button
+          onClick={handleLocateMe}
+          className="bg-white rounded-full w-11 h-11 shadow-lg flex items-center justify-center text-cherry-deep hover:bg-cherry-light transition-colors"
+          aria-label="내 주변 벚꽃"
+          title="내 주변 벚꽃"
         >
-          <circle cx="12" cy="12" r="3" />
-          <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
-        </svg>
-      </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            className="w-5 h-5"
+          >
+            <circle cx="12" cy="12" r="3" />
+            <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
+          </svg>
+        </button>
+      </div>
 
       {/* Bottom Sheet */}
       <BottomSheet tree={selectedTree} onClose={() => setSelectedTree(null)} />

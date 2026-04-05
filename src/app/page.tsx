@@ -1,4 +1,5 @@
 import MapLoader from "@/components/MapLoader";
+import DonateButton from "@/components/DonateButton";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       {/* Map */}
       <main className="flex-1 relative">
         <MapLoader />
+        <DonateButton />
       </main>
     </div>
   );
