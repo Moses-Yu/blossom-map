@@ -1,5 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
+
+const notoSansKR = Noto_Sans_KR({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "벚꽃구경 — 전국 벚꽃 지도",
@@ -19,6 +26,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   themeColor: "#FFB7C5",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -27,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className="h-full antialiased">
+    <html lang="ko" className={`h-full antialiased ${notoSansKR.className}`}>
       <body className="h-full flex flex-col bg-background text-foreground">
         {children}
       </body>

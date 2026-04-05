@@ -14,7 +14,7 @@ export default function DonateButton() {
       {/* Floating donate button */}
       <button
         onClick={() => setShowModal(true)}
-        className="fixed bottom-6 left-3 z-[1000] bg-cherry-deep text-white rounded-full px-4 py-2.5 shadow-lg flex items-center gap-1.5 text-sm font-medium hover:bg-[#E8627C] transition-colors"
+        className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] left-3 z-[1000] bg-cherry-deep text-white rounded-full px-4 py-2.5 shadow-lg flex items-center gap-1.5 text-sm font-medium hover:bg-[#E8627C] transition-colors"
       >
         <span>🌸</span>
         <span>후원하기</span>

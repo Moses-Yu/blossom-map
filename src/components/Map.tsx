@@ -212,7 +212,7 @@ export default function Map() {
       )}
 
       {/* Right-side floating buttons */}
-      <div className={`absolute bottom-6 right-3 z-[1000] flex flex-col gap-2 transition-opacity ${selectedTree ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
+      <div className={`absolute bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-3 z-[1000] flex flex-col gap-2 transition-opacity ${selectedTree ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
         <ShareButton
           species={selectedTree?.species}
           location={

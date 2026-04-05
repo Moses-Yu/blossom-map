@@ -100,3 +100,8 @@ body {
 .animate-slide-up {
   animation: slide-up 0.25s ease-out;
 }
+
+/* iOS safe area utility */
+.safe-bottom {
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+}

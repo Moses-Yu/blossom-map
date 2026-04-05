@@ -56,14 +56,17 @@ export default function BottomSheet({
       />
 
       {/* Sheet */}
-      <div className="bg-white rounded-t-2xl shadow-2xl px-5 pt-3 pb-6 max-w-lg mx-auto">
+      <div className="bg-white rounded-t-2xl shadow-2xl px-5 pt-3 pb-[max(1.5rem,env(safe-area-inset-bottom))] max-w-lg mx-auto">
         {/* Handle */}
         <div className="flex justify-center mb-3">
           <div className="w-10 h-1 rounded-full bg-gray-300" />
         </div>
 
         {/* Content */}
-        <div className="flex items-start gap-3">
+        <div
+          className="flex items-start gap-3 overflow-y-auto"
+          onTouchMove={(e) => e.stopPropagation()}
+        >
           <span className="text-3xl mt-0.5">{emoji}</span>
           <div className="flex-1 min-w-0">
             <h3 className="text-lg font-bold text-cherry-deep">
